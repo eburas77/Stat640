@@ -37,6 +37,7 @@ for i in range(0,Kfolds):
     for j in range(0,len(kvec)):
         k = kvec[j]
         print(k)
+        cv_test = cv_test[['UserID','ProfileID']]
         iteration = 0
         mse_last = 999
         while iteration<10:
@@ -72,7 +73,7 @@ for p in range(0,len(kvec)):
     foldsavg[p,1] = np.mean(err_array[p,:])
 
 kmin =kvec[np.argmin(foldsavg)]
-
+print(kmin)
 IDmap = pd.read_csv('IDmap.csv')
 ID = IDmap['KaggleID']
 IDmapids = IDmap[['UserID','ProfileID']]
