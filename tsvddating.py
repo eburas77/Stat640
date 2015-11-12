@@ -57,15 +57,15 @@ for i in range(0,Kfolds):
         m = m.clip(lower=1,upper=10)
 
     #creating rating for cv_test
-    cv_test['newrating'] = cv_test.apply(lambda x:m[m.index==x.UserID][x.ProfileID].values[0],axis=1)
+        cv_test['newrating'] = cv_test.apply(lambda x:m[m.index==x.UserID][x.ProfileID].values[0],axis=1)
 
     # There are some movies who did not have enough info to make prediction, so just used average value for user
-    missing = np.where(cv_test.newrating.isnull())[0]
-    cv_test.ix[missing,'newrating'] = user_means[cv_test.loc[missing].UserID].values
+        missing = np.where(cv_test.newrating.isnull())[0]
+        cv_test.ix[missing,'newrating'] = user_means[cv_test.loc[missing].UserID].values
 
-    rmse = np.sqrt(sum(pow((cv_ratings-cv_test['newrating']),2))/len(cv_ratings))
-    err_array[j,i]=rmse
-    print(err_array)
+        rmse = np.sqrt(sum(pow((cv_ratings-cv_test['newrating']),2))/len(cv_ratings))
+        err_array[j,i]=rmse
+        print(err_array)
 
 foldsavg = np.array((len(kvec),1))
 for p in range(0,len(kvec)):   
