@@ -68,9 +68,9 @@ for i in range(0,Kfolds):
         err_array[j,i]=rmse
         print(err_array)
 
-foldsavg = np.array((len(kvec),1))
-for p in range(0,len(kvec)):   
-    foldsavg[p,1] = np.mean(err_array[p,:])
+foldsavg = np.zeros((len(kvec),1))
+for p in range(0,len(kvec-1)):   
+    foldsavg[p,0] = np.mean(err_array[p,:])
 
 kmin =kvec[np.argmin(foldsavg)]
 print(kmin)
