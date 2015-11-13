@@ -21,7 +21,6 @@ cv_train_1 = cv_train.ix[train_rows]
 cv_train_2 = cv_train.drop(train_rows)    
     #drop the rating from the test set
 cv_test = cv_test[['UserID','ProfileID']]
-mean_m = np.zeros((10000,10000))
 
 
 cv_train_ratings = cv_train_2['Rating']
@@ -98,7 +97,7 @@ m1 = m1.clip(lower=1,upper=10)
 #this weighting should be mixed up to find best optimal 
 mfinal=(m+m1)/2
     #creating rating for cv_test
-cv_test['newrating'] = cv_test.apply(lambda x:mfinal[mfinal.index==x.UserID][x.ProfileID].values[0],axis=1)
+cv_test['newrating'] = cv_test.apply(lambda x:m1[m1.index==x.UserID][x.ProfileID].values[0],axis=1)
 
     # There are some profiles who did not have enough info to make prediction, so just used average value for user
 missing1 = np.where(cv_test.newrating.isnull())[0]
@@ -111,7 +110,7 @@ print(rmse)
 IDmap = pd.read_csv('IDmap.csv')
 ID = IDmap['KaggleID']
 
-IDmap['newrating'] = IDmap.apply(lambda x:mfinal[mfinal.index==x.UserID][x.ProfileID].values[0],axis=1)
+IDmap['newrating'] = IDmap.apply(lambda x:m1[m1.index==x.UserID][x.ProfileID].values[0],axis=1)
 
 missing3 = np.where(IDmap.newrating.isnull())[0]
 IDmap.ix[missing3,'newrating'] = user_means[IDmap.loc[missing].UserID].values
